@@ -58,29 +58,29 @@ Background.prototype.update = function () {
 };
 
 // inheritance 
-function Cheetah(game, spritesheet) {
+function Pumpkin(game, spritesheet) {
     this.animation = new Animation(spritesheet, 512, 256, 2, 0.05, 8, true, 0.5);
     this.speed = 350;
     this.ctx = game.ctx;
     Entity.call(this, game, 0, 250);
 }
 
-Cheetah.prototype = new Entity();
-Cheetah.prototype.constructor = Cheetah;
+Pumpkin.prototype = new Entity();
+Pumpkin.prototype.constructor = Pumpkin;
 
-Cheetah.prototype.update = function () {
+Pumpkin.prototype.update = function () {
     this.x += this.game.clockTick * this.speed;
     if (this.x > 630) this.x = -230;
     Entity.prototype.update.call(this);
 }
 
-Cheetah.prototype.draw = function () {
+Pumpkin.prototype.draw = function () {
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
     Entity.prototype.draw.call(this);
 }
 
 AM.queueDownload("./img/background.jpg");
-//AM.queueDownload("./img/background.png");
+AM.queueDownload("./img/pumpkin.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
@@ -91,7 +91,7 @@ AM.downloadAll(function () {
     gameEngine.start();
 
     gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/background.jpg")));
-//    gameEngine.addEntity(new MegaMan(gameEngine, AM.getAsset("./img/mega_man.png")));
+    gameEngine.addEntity(new Pumpkin(gameEngine, AM.getAsset("./img/pumpkin.png")));
 
 
     console.log("All Done!");
