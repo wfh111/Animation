@@ -58,29 +58,50 @@ Background.prototype.update = function () {
 };
 
 // inheritance 
-function Pumpkin(game, spritesheet) {
-    this.animation = new Animation(spritesheet, 512, 256, 2, 0.05, 8, true, 0.5);
-    this.speed = 350;
+function Pumpkin_Death(game, spritesheet) {
+    this.animation = new Animation(spritesheet, 158, 200, 1586, .15, 10, true, .8);
+    this.speed = 0;
     this.ctx = game.ctx;
-    Entity.call(this, game, 0, 250);
+    Entity.call(this, game, 0, 0);
 }
 
-Pumpkin.prototype = new Entity();
-Pumpkin.prototype.constructor = Pumpkin;
+Pumpkin_Death.prototype = new Entity();
+Pumpkin_Death.prototype.constructor = Pumpkin_Death;
 
-Pumpkin.prototype.update = function () {
+Pumpkin_Death.prototype.update = function () {
     this.x += this.game.clockTick * this.speed;
     if (this.x > 630) this.x = -230;
     Entity.prototype.update.call(this);
 }
 
-Pumpkin.prototype.draw = function () {
+Pumpkin_Death.prototype.draw = function () {
+    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
+    Entity.prototype.draw.call(this);
+}
+function Pumpkin_Run(game, spritesheet) {
+    this.animation = new Animation(spritesheet, 157, 700, 1586, .1, 10, true, .5);
+    this.speed = 200;
+    this.ctx = game.ctx;
+    Entity.call(this, game, 0, 100);
+}
+
+Pumpkin_Run.prototype = new Entity();
+Pumpkin_Run.prototype.constructor = Pumpkin_Run;
+
+Pumpkin_Run.prototype.update = function () {
+    this.x += this.game.clockTick * this.speed;
+    if (this.x > 630) this.x = -230;
+    Entity.prototype.update.call(this);
+}
+
+Pumpkin_Run.prototype.draw = function () {
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
     Entity.prototype.draw.call(this);
 }
 
 AM.queueDownload("./img/background.jpg");
-AM.queueDownload("./img/pumpkin.png");
+AM.queueDownload("./img/pumpkin_death.png");
+AM.queueDownload("./img/pumpkinSprite.png")
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
@@ -91,7 +112,8 @@ AM.downloadAll(function () {
     gameEngine.start();
 
     gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/background.jpg")));
-    gameEngine.addEntity(new Pumpkin(gameEngine, AM.getAsset("./img/pumpkin.png")));
+    gameEngine.addEntity(new Pumpkin_Death(gameEngine, AM.getAsset("./img/pumpkin_death.png")));
+    gameEngine.addEntity(new Pumpkin_Run(gameEngine, AM.getAsset("./img/pumpkinSprite.png")));
 
 
     console.log("All Done!");
